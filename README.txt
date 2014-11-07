@@ -15,3 +15,36 @@ We created globals for the state matrix and expanded key.  The tables needed thr
 We finished all of this assignment.  We encrypt at about 5.9 MB/sec and decrypt at about  4.8 MB/sec.
 
 [Test Cases]
+
+[Test Case 1]
+inputFile: 
+328831e0435a3137f6309807a88da234
+key:
+2b28ab097eaef7cf15d2154f16a6883c
+
+inputFile.enc:
+3902dc1925dc116a8409850b1dfb9732
+inputFile.enc.dec:
+328831e0435a3137f6309807a88da234
+
+[Test Case 2]
+inputFile: 
+00000000000000000000000000000000
+key:
+00000000000000000000000000000000
+
+inputFile.enc:
+66ef88cae98a4c344b2cfa2bd43b592e
+inputFile.enc.dec:
+00000000000000000000000000000000
+
+[Test Case 3]
+inputFile: 
+0
+key:
+00000000000000000000000000000000
+
+inputFile.enc:
+66ef88cae98a4c344b2cfa2bd43b592e
+inputFile.enc.dec:
+00000000000000000000000000000000
