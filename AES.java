@@ -21,17 +21,51 @@ public class AES {
 			BufferedReader inputReader = new BufferedReader(inputStream);
 			BufferedReader keyReader = new BufferedReader(keyStream);
 
-		// char buffer
-			char[] cbuf = new char[inputFile.available()];
-			inputReader.read(cbuf, 0, inputFile.available());
-			char[] cipher_key = new char[keyFile.available()];
-			keyReader.read(cipher_key, 0, keyFile.available());
+		
+			String cipher_key = keyReader.readLine();
 
-			if(option.equalsIgnoreCase("E"))
-				encrypt(cbuf, cipher_key);
 
-			if(option.equalsIgnoreCase("D"))
-				decrypt(cbuf);
+
+			int[][] st = new int[4][4];
+			String buf = new String();
+			buf = inputReader.readLine();
+			
+			// Reads line of input, puts it into 4x4 array
+			String hexstring = "";
+			int hexval = 0;
+			for (int i = 0; i < 32; i++) {
+				if (i < buf.length()) {
+					if (i % 2 == 0) {
+						hexstring = buf.substring(i,i+1);
+						hexval = Integer.valueOf(hexstring, 16).intValue()*16;
+					} else {
+						hexstring = buf.substring(i,i+1);
+						hexval += Integer.valueOf(hexstring, 16).intValue();
+					}
+				}
+				if (i % 2 == 1) {
+					st[i/8][(i/2)%4] = hexval;
+				}
+			} 
+			
+
+
+
+			
+
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					System.out.print(st[i][j]);
+				}
+				System.out.println();
+			}
+
+
+			// if(option.equalsIgnoreCase("E"))
+			// 	encrypt(buf, cipher_key);
+
+			// if(option.equalsIgnoreCase("D"))
+			// 	decrypt(buf);
 
 		} catch(Exception e) {
 			System.out.println("");
@@ -39,17 +73,12 @@ public class AES {
 		}
 	}
 
-	public static void encrypt(char[] cbuf, char[] cipher_key){
-		for (int i = 0; i < cbuf.length; i++){
-			System.out.print(cbuf[i]);
-		}
-		for (int i = 0; i < cipher_key.length; i++){
-			System.out.print(cipher_key[i]);
-		}
+	public static void encrypt(String data, String key){
+		System.out.println(data);
+		System.out.println(key);
 	}
-	public static void decrypt(char[] cbuf){
-		for (int i = 0; i < cbuf.length; i++){
-			System.out.println(cbuf[i]);
-		}
+	public static void decrypt(String key){
+		System.out.println(key);
+		
 	}
 }
