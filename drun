@@ -1,0 +1,2 @@
+javac *.java
+java AES d key plaintext.enc
