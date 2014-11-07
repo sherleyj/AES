@@ -42,6 +42,9 @@ public class AES {
 	   0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16
 	};
 
+	public static int round = 0;
+	public static byte[][] st = new byte[4][4];
+	public static byte[][] expanded_key = new byte[4][44];
 
 	public static void main (String args[]) throws IOException {
 		String option = args[0];
@@ -60,7 +63,7 @@ public class AES {
 			BufferedReader inputReader = new BufferedReader(inputStream);
 			BufferedReader keyReader = new BufferedReader(keyStream);
 
-			byte[][] st = new byte[4][4];
+			//byte[][] st = new byte[4][4];
 			String buf = new String();
 			buf = inputReader.readLine();
 			st = format_input(buf);
@@ -77,7 +80,7 @@ public class AES {
 			// 	System.out.println();
 			// }
 
-			byte[][] expanded_key = new byte[4][44];
+			//byte[][] expanded_key = new byte[4][44];
 			expanded_key = key_expansion(cipher_key);
 			// for (int i = 0; i < 4; i++) {
 			// 	for (int j = 0; j < 4; j++) {
@@ -86,11 +89,11 @@ public class AES {
 			// 	System.out.println();
 			// }
 
-			// if(option.equalsIgnoreCase("E"))
-			// 	encrypt(buf, cipher_key);
+			if(option.equalsIgnoreCase("E"))
+				encrypt();
 
 			// if(option.equalsIgnoreCase("D"))
-			// 	decrypt(buf);
+			// 	decrypt();
 
 		} catch(Exception e) {
 			System.out.println("");
@@ -128,12 +131,32 @@ public class AES {
 			return st;
 	}
 
-	public static void encrypt(String data, String key){
-		System.out.println(data);
-		System.out.println(key);
+	public static void encrypt(){
+		// round 0: addRoundKey
+		// round 1 - 9: subBytes, shiftRows, MixColumns, addRoundKey
+		// round 11: subBytes, shiftRows, addRoundKey
+		if (round == 0){
+			addRoundKey(0);
+		}
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 4; j++){
+				System.out.print(st[i][j] & 0xff);
+			}
+			System.out.println();
+		}
+		
 	}
-	public static void decrypt(String key){
-		System.out.println(key);	
+	// XOR the key with the state matrix
+	public static void addRoundKey(int offset){
+
+		for(int i = 0; i < 4; i++){
+			for(int j = offset; j < 4; j++){
+				st[i][j] ^= expanded_key[i][j];
+			}
+	    }
+	}
+
+	public static void decrypt(){
 	}
 
 	/* This is the core key expansion, which, given a 4-byte value,
@@ -191,6 +214,10 @@ public class AES {
 				current_col++;
 			}
 			rcon_val++;
+		}
+
+		for (int i = 0; i < 4; i++){
+			System.out.print(expanded_key[i][40] & 0xFF);
 		}
 
 		return expanded_key;
