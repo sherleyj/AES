@@ -109,6 +109,7 @@ public class AES {
 			InputStream inputFile = new FileInputStream(args[2]);
 			InputStream keyFile = new FileInputStream(args[1]);
 
+
 		// create new input stream reader
 			InputStreamReader inputStream = new InputStreamReader(inputFile); 
 			InputStreamReader keyStream = new InputStreamReader(keyFile); 
@@ -116,6 +117,7 @@ public class AES {
         // create new buffered reader
 			BufferedReader inputReader = new BufferedReader(inputStream);
 			BufferedReader keyReader = new BufferedReader(keyStream);
+			
 
 			//byte[][] st = new byte[4][4];
 			// String buf = new String();
@@ -126,40 +128,73 @@ public class AES {
 			String buf2 = new String();
 			buf2 = keyReader.readLine();
 			cipher_key = format_input(buf2);
-
-			// for (int i = 0; i < 4; i++) {
-			// 	for (int j = 0; j < 4; j++) {
-			// 		System.out.print(st[i][j] & 0xff);
-			// 	}
-			// 	System.out.println();
-			// }
-
-			//byte[][] expanded_key = new byte[4][44];
 			expanded_key = key_expansion(cipher_key);
-			// for (int i = 0; i < 4; i++) {
-			// 	for (int j = 0; j < 4; j++) {
-			// 		System.out.print(cipher_key[i][j]);
-			// 	}
-			// 	System.out.println();
-			// }
+
+
+
 
 			if(option.equalsIgnoreCase("E")){
 				String buf = new String();
+				FileWriter outputFile = new FileWriter(args[2].concat(".enc"));
+				BufferedWriter output = new BufferedWriter(outputFile);
+				boolean firstline = false;
 				while ((buf = inputReader.readLine()) != null){
+					if (firstline == false) 
+						firstline = true;
+					else
+						output.write("\n");
+
 					st = format_input(buf);
 					encrypt();
-					// write st to .enc file
+					String block = new String();
+					for(int i = 0; i < 4; i++){
+						for(int j = 0; j < 4; j++){
+							block = Integer.toHexString(st[i][j] & 0xff);
+							if (block.length() < 2) {
+							    block = "0".concat(block); // pad with leading zero if needed
+							}
+							// System.out.print(" ");
+							output.write(block);
+						}
+						// System.out.println();
+					}
+
+					
 				}
+				output.close();
 			}
 
 			if(option.equalsIgnoreCase("D")) {
 				String buf = new String();
+				FileWriter outputFile = new FileWriter(args[2].concat(".dec"));
+				BufferedWriter output = new BufferedWriter(outputFile);
+				boolean firstline = false;
 				while ((buf = inputReader.readLine()) != null){
+					if (firstline == false) 
+						firstline = true;
+					else
+						output.write("\n");
+
 					st = format_input(buf);
 					decrypt();
-					// write st to enc.dec
-		}
+					String block = new String();
+					for(int i = 0; i < 4; i++){
+						for(int j = 0; j < 4; j++){
+							block = Integer.toHexString(st[i][j] & 0xff);
+							if (block.length() < 2) {
+							    block = "0".concat(block); // pad with leading zero if needed
+							}
+							// System.out.print(" ");
+							output.write(block);
+						}
+						// System.out.println();
+					}
+
+					
+				}
+				output.close();
 			}
+	
 
 		} catch(Exception e) {
 			System.out.println("");

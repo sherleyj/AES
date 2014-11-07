@@ -1,2 +1,2 @@
 javac *.java
-java AES d key plaintext.enc
+java AES d key input.enc
