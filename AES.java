@@ -42,9 +42,18 @@ public class AES {
 						hexstring = buf.substring(i,i+1);
 						hexval += Integer.valueOf(hexstring, 16).intValue();
 					}
+				} else {
+					if (i % 2 == 0) {
+						hexval = 0;
+					} else 
+						hexval += 0;
+
 				}
+
+				
 				if (i % 2 == 1) {
 					st[i/8][(i/2)%4] = hexval;
+					hexval = 0;
 				}
 			} 
 			
