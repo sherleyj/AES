@@ -204,6 +204,11 @@ public class AES {
 		
 	}
 
+	public static void decrypt(){
+
+		
+	}
+
 	public static void subBytes(){
 		for (int i = 0;i < 4 ;i++ ) {
 			for (int j = 0;j < 4 ;j++ ) {
@@ -286,9 +291,6 @@ public class AES {
 		st[3][c] = (byte)(mul(0xE,a[3]) ^ mul(0xB,a[0]) ^ mul(0xD, a[1]) ^ mul(0x9,a[2]));
      } // invMixColumn2
 
-
-	public static void decrypt(){
-	}
 
 	/* This is the core key expansion, which, given a 4-byte value,
  	* does some scrambling */
